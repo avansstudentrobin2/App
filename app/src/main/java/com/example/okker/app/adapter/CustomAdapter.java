@@ -4,6 +4,7 @@ package com.example.okker.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,15 @@ import com.example.okker.app.model.RetroPhoto;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
@@ -37,6 +46,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         private TextView txtTitle;
         private ImageView coverImage;
         private TextView imageId;
+        private TextView date;
+        private TextView place;
 
         CustomViewHolder(final View itemView) {
             super(itemView);
@@ -46,6 +57,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             txtTitle = mView.findViewById(R.id.title);
             coverImage = mView.findViewById(R.id.coverImage);
             imageId = mView.findViewById(R.id.id);
+            date = mView.findViewById(R.id.date);
+            place = mView.findViewById(R.id.place);
 
             coverImage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v){
@@ -68,7 +81,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getTitle());
         holder.imageId.setText(dataList.get(position).getId().toString());
-
+        //holder.date.setText(dataList.get(position).getUpdated_at());
+        holder.date.setText(convertToShortDate(dataList.get(position).getUpdated_at()));
+        holder.place.setText(dataList.get(position).getPlace());
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
         builder.build().load(dataList.get(position).getImg())
@@ -82,6 +97,33 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public int getItemCount() {
         return dataList.size();
+    }
+
+    public void clear() {
+        dataList.clear();
+        notifyDataSetChanged();
+    }
+    public void addAll(List<RetroPhoto> list) {
+        dataList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public String convertToShortDate(String dateString) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = format.parse(dateString);
+            return date.toString();
+        } catch(Exception ex) {
+            Log.d("ERROR", ex.toString());
+            return "Date Error";
+        }
+        //return "10-1-2019";
+    }
+
+    public void updateList(List<RetroPhoto> newList) {
+        dataList = new ArrayList<>();
+        dataList.addAll(newList);
+        notifyDataSetChanged();
     }
 }
 

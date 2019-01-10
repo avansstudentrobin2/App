@@ -8,8 +8,10 @@ public class RetroPhoto {
     private Integer id;
     @SerializedName("title")
     private String title;
-    @SerializedName("body")
-    private String body;
+    @SerializedName("place")
+    private String place;
+    @SerializedName("description")
+    private String description;
     @SerializedName("longitude")
     private Double longitude;
     @SerializedName("latitude")
@@ -21,10 +23,11 @@ public class RetroPhoto {
     @SerializedName("updated_at")
     private String updated_at;
 
-    public RetroPhoto(Integer id, String title, String body, Double longitude, Double latitude, String img, String created_at, String updated_at) {
+    public RetroPhoto(Integer id, String title, String place, String description, Double longitude, Double latitude, String img, String created_at, String updated_at) {
         this.id = id;
         this.title = title;
-        this.body = body;
+        this.place = place;
+        this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
         this.img = img;
@@ -40,9 +43,13 @@ public class RetroPhoto {
 
     public void setTitle(String title) { this.title = title; }
 
-    public String getBody() { return body; }
+    public String getPlace() { return place; }
 
-    public void setBody(String body) { this.body = body; }
+    public void setPlace(String place) { this.place = place; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 
     public Double getLongitude() { return longitude; }
 

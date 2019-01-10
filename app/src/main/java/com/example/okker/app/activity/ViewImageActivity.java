@@ -104,7 +104,7 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView);
         textViewTitle.setText(retroPhoto.getTitle());
-        textViewText.setText(retroPhoto.getBody());
+        textViewText.setText(retroPhoto.getPlace());
         setLocationOnMap();
     }
 
