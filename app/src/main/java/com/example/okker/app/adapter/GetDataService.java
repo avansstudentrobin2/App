@@ -1,7 +1,6 @@
 package com.example.okker.app.adapter;
 
 import com.example.okker.app.model.RetroPhoto;
-import com.example.okker.app.model.ServerResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,16 @@ public interface GetDataService {
     @GET("/api/posts")
     Call<List<RetroPhoto>> getAllPhotos();
 
-    @POST("/api/posts")
-    @Multipart
-    Call<ResponseBody> uploadFile(@Part("title") RequestBody title,
-                                  @Part ("body") RequestBody body,
-                                  @Part MultipartBody.Part imageFile);
-
     @GET("/api/posts/{id}")
     Call<RetroPhoto> getPhoto(@Path("id") Integer id);
+
+    @Multipart
+    @POST("/api/posts")
+    Call<RetroPhoto> uploadImage(@Part("title") RequestBody title,
+                                 @Part("place") RequestBody place,
+                                 @Part("description") RequestBody description,
+                                 @Part("latitude") RequestBody latitude,
+                                 @Part("longitude") RequestBody longitude,
+                                 @Part MultipartBody.Part file);
+
 }

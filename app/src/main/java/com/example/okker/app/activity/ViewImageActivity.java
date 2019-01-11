@@ -21,6 +21,7 @@ import com.example.okker.app.R;
 import com.example.okker.app.adapter.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
+import com.example.okker.app.network.RetrofitClientInstance1;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,7 +67,7 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         Integer imageId = Integer.parseInt(getIntent().getExtras().getString("id"));
 
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
 
         Call<RetroPhoto> call = service.getPhoto(imageId);
         call.enqueue(new Callback<RetroPhoto>() {

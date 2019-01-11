@@ -4,20 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.okker.app.R;
@@ -25,7 +20,7 @@ import com.example.okker.app.adapter.CustomAdapter;
 import com.example.okker.app.adapter.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
-import com.google.android.gms.ads.internal.gmsg.HttpClient;
+import com.example.okker.app.network.RetrofitClientInstance1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         progressDoalog.show();
 
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
 
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //AsyncHttpClient client = new AsyncHttpClient();
         adapter.clear();
         //adapter.addAll();
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
 
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {
@@ -123,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public void Clickt(View view)
     {
-        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+        Intent intent = new Intent(MainActivity.this, UploadActivity.class);
         startActivity(intent);
     }
 
