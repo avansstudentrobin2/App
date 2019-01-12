@@ -53,6 +53,8 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,6 +93,13 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         imageView = (ImageView) findViewById(R.id.imageView);
         descriptionText = (TextInputEditText) findViewById(R.id.descriptionText);
         titleText = (TextInputEditText) findViewById(R.id.titleText);
+
+        Picasso.Builder builder = new Picasso.Builder(UploadActivity.this);
+        builder.downloader(new OkHttp3Downloader(UploadActivity.this));
+        builder.build().load(R.drawable.gg)
+                .placeholder((R.drawable.gg))
+                .error(R.drawable.gg)
+                .into(imageView);
     }
 
     public void showpDialog() {
@@ -102,8 +111,10 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     public void selectImage(View view) {
-        try {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -123,8 +134,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -135,26 +144,26 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                 pDialog.show();
                 String title = titleText.getText().toString();
                 String description = descriptionText.getText().toString();
-                if(title != null && description != null) {
+                if(title.isEmpty() || description.isEmpty()) {
+                    showMessage("Not all the data has been filled, try again");
+                    pDialog.hide();
+                } else {
                     service.saveUserImage(this, title, userLocation, description, lat, lon, new File(mCurrentPhotoPath), new Callback<RetroPhoto>() {
                         @Override
                         public void onResponse(Call<RetroPhoto> call, Response<RetroPhoto> response) {
-                            showMessage("Image successfully uploaded to server!");
+                            showMessage("Sale has been successfully uploaded");
                             pDialog.hide();
                         }
 
                         @Override
                         public void onFailure(Call<RetroPhoto> call, Throwable t) {
-                            showMessage("Upload Failed!");
+                            showMessage("Upload has Failed!");
                             pDialog.hide();
                         }
                     });
-                } else {
-                    showMessage("Not all data has been filled in");
-                    pDialog.hide();
                 }
             } else {
-                showMessage("No Image found to be uploaded.");
+                showMessage("Image has not been taken yet, please try again by pressing the camera button");
                 pDialog.hide();
             }
         } catch (Exception ex) {
@@ -164,6 +173,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: requestCode " + requestCode);
         Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));

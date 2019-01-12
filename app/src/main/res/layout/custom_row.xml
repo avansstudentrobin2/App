@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="338dp"
         android:orientation="vertical">
 
         <TextView
@@ -25,8 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:scaleType="centerCrop" />
 
         <TextView

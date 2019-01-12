@@ -5,7 +5,7 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-       />
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
@@ -30,7 +30,10 @@
             android:value="AIzaSyDN1STNHYsF11oj_VBh52R4MKygBJbWXHA">
         </meta-data>
         <activity
-            android:name=".activity.MainActivity">
+            android:label="Sales"
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

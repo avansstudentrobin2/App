@@ -69,6 +69,8 @@
         android:id="@+id/routeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:fontFamily="sans-serif"
         android:text="@string/get_route" />
 
 </LinearLayout>

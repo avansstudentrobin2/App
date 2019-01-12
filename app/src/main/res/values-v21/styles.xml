@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here.
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -10,6 +10,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="colorAccent">@color/blue</item>
+        <item name="android:navigationBarColor">@color/cast_expanded_controller_background_color</item>
+        <item name="android:statusBarColor">@color/wallet_highlighted_text_holo_light</item>
     </style>
-
 </resources>

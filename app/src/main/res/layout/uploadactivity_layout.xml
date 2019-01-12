@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +13,7 @@
         android:layout_height="250dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
+        app:srcCompat="@color/cast_intro_overlay_button_background_color"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <LinearLayout
@@ -23,18 +25,15 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/selectButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginBottom="25dp"
-            android:background="@color/wallet_highlighted_text_holo_light"
+        <ImageButton
+            android:id="@+id/imageButton"
             android:onClick="selectImage"
-            android:text="@string/make_picture"
-            android:textColor="@android:color/white" />
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="122dp"
+            android:layout_marginBottom="25dp"
+            android:background="@color/blue"
+            app:srcCompat="@drawable/camera" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/city_text"
+                android:text=""
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -84,11 +83,14 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:background="@color/cast_intro_overlay_button_background_color"
+            android:background="@color/blue"
+            android:fontFamily="sans-serif"
             android:onClick="uploadImage"
-            android:text="Upload Image"
-            android:textAllCaps="true"
-            android:textStyle="italic" />
+            android:text="@string/upload_sale"
+            android:textAllCaps="false"
+            android:textColor="@color/cast_libraries_material_featurehighlight_text_body_color"
+            android:textSize="20sp"
+            android:typeface="sans" />
     </LinearLayout>
 
 </LinearLayout>

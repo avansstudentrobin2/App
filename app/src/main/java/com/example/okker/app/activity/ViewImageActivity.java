@@ -104,8 +104,8 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         Picasso.Builder builder = new Picasso.Builder(ViewImageActivity.this);
         builder.downloader(new OkHttp3Downloader(ViewImageActivity.this));
         builder.build().load(retroPhoto.getImg())
-                .placeholder((R.drawable.ic_launcher_background))
-                .error(R.drawable.ic_launcher_background)
+                .placeholder((R.drawable.gg))
+                .error(R.drawable.gg)
                 .into(imageView);
         textViewTitle.setText(retroPhoto.getTitle());
         textViewText.setText(retroPhoto.getDescription());
