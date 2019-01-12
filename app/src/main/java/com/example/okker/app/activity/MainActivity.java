@@ -23,6 +23,7 @@ import com.example.okker.app.network.RetrofitClientInstance;
 import com.example.okker.app.network.RetrofitClientInstance1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onResponse(Call<List<RetroPhoto>> call, Response<List<RetroPhoto>> response) {
                 progressDoalog.dismiss();
+                Collections.reverse(response.body());
                 generateDataList(response.body());
             }
 
@@ -93,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onResponse(Call<List<RetroPhoto>> call, Response<List<RetroPhoto>> response) {
                 progressDoalog.dismiss();
+                Collections.reverse(response.body());
                 generateDataList(response.body());
-                //adapter.addAll(response.body());
             }
 
             @Override
