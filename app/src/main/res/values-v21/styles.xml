@@ -11,6 +11,6 @@
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="colorAccent">@color/blue</item>
         <item name="android:navigationBarColor">@color/cast_expanded_controller_background_color</item>
-        <item name="android:statusBarColor">@color/wallet_highlighted_text_holo_light</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
     </style>
 </resources>

@@ -96,9 +96,9 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
 
         Picasso.Builder builder = new Picasso.Builder(UploadActivity.this);
         builder.downloader(new OkHttp3Downloader(UploadActivity.this));
-        builder.build().load(R.drawable.gg)
-                .placeholder((R.drawable.gg))
-                .error(R.drawable.gg)
+        builder.build().load(R.drawable.placeholder)
+                .placeholder((R.drawable.placeholder))
+                .error(R.drawable.placeholder)
                 .into(imageView);
     }
 

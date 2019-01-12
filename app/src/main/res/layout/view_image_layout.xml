@@ -15,7 +15,8 @@
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
         app:zoomage_animateOnReset="true"
         app:zoomage_autoCenter="true"
         app:zoomage_autoResetMode="UNDER"
@@ -24,6 +25,7 @@
         app:zoomage_restrictBounds="true"
         app:zoomage_translatable="true"
         app:zoomage_zoomable="true" />
+
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -58,7 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapGoogleView"

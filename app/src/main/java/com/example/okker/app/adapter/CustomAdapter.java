@@ -88,8 +88,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
         builder.build().load(dataList.get(position).getImg())
-                .placeholder((R.drawable.gg))
-                .error(R.drawable.gg)
+                .placeholder((R.drawable.placeholder))
+                .error(R.drawable.placeholder)
                 .into(holder.coverImage);
 
         holder.getItemId();

@@ -38,7 +38,7 @@
         android:focusable="true"
         android:onClick="Clickt"
         android:src="@drawable/ic_action_name"
-        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
