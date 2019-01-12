@@ -46,7 +46,7 @@ import java.util.Map;
 
 public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCallback {
     ImageView imageView;
-    TextView textViewTitle, textViewText;
+    TextView textViewTitle, textViewText, textViewPlace, textViewCreatedDate, textViewUpdatedDate;
     Button routeButton;
     private Double latitude, longitude;
 
@@ -62,6 +62,9 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         imageView = (ImageView) findViewById(R.id.imageView);
         routeButton = (Button) findViewById(R.id.routeButton);
         mMapView = (MapView) findViewById(R.id.mapGoogleView);
+        textViewPlace = (TextView) findViewById(R.id.textViewPlace);
+        textViewCreatedDate = (TextView) findViewById(R.id.textViewCreatedDate);
+        textViewUpdatedDate = (TextView) findViewById(R.id.textViewUpdatedDate);
 
         //Get imageview ID
         Integer imageId = Integer.parseInt(getIntent().getExtras().getString("id"));
@@ -105,7 +108,10 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView);
         textViewTitle.setText(retroPhoto.getTitle());
-        textViewText.setText(retroPhoto.getPlace());
+        textViewText.setText(retroPhoto.getDescription());
+        textViewPlace.setText(retroPhoto.getPlace());
+        textViewCreatedDate.setText(retroPhoto.getCreated_at());
+        textViewUpdatedDate.setText(retroPhoto.getUpdated_at());
         setLocationOnMap();
     }
 

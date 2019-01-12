@@ -2,8 +2,9 @@
     <string name="app_name">App</string>
     <string name="uploadImages">Set your image</string>
     <string name="msg_loading">Loading...</string>
-    <string name="city_text">Current city:   </string>
+    <string name="city_text">Your current city: \u0020</string>
     <string name="city">City</string>
     <string name="get_route">Navigate to location</string>
     <string name="api_key">AIzaSyDN1STNHYsF11oj_VBh52R4MKygBJbWXHA</string>
+    <string name="make_picture">Make picture</string>
 </resources>

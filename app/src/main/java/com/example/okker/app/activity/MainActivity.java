@@ -152,10 +152,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String userInput = newText.toLowerCase();
         List<RetroPhoto> newList = new ArrayList<>();
         for(RetroPhoto item : allImagesList){
-            if(item.getTitle().contains(userInput)) {
-                newList.add(item);
-            } else if(item.getPlace().contains(userInput)) {
-                newList.add(item);
+            if(item.getTitle().toLowerCase().contains(userInput)) {
+                if(!newList.contains(item)) {
+                    newList.add(item);
+                }
+            }
+            if(item.getPlace().toLowerCase().contains(userInput)) {
+                if(!newList.contains(item)) {
+                    newList.add(item);
+                }
             }
 
         }

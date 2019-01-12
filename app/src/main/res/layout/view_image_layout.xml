@@ -39,6 +39,26 @@
         android:layout_marginLeft="5dp"
         android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/textViewPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewCreatedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewUpdatedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapGoogleView"

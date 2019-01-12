@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -49,6 +50,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -57,166 +59,142 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-    public class UploadActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-        public static String TAG = UploadActivity.class.getSimpleName();
-        ImageView imageView;
-        static final int REQUEST_IMAGE_CAPTURE = 1000;
+    public static String TAG = UploadActivity.class.getSimpleName();
+    ImageView imageView;
+    static final int REQUEST_IMAGE_CAPTURE = 1000;
+    UserService service;
+    String mCurrentPhotoPath;
+    ProgressDialog pDialog;
+    TextInputEditText descriptionText, titleText;
+    private GoogleApiClient googleApiClient;
+    private Double lat;
+    private Double lon;
+    private String userLocation;
+    TextView textViewCity, cityCurrentText;
+    private LocationRequest mLocationRequest;
 
-        UserService service;
-
-        String mCurrentPhotoPath;
-
-        ProgressDialog pDialog;
-        private GoogleApiClient googleApiClient;
-        private Double lat;
-        private Double lon;
-        private String userLocation;
-        TextView textViewLat;
-        TextView textViewLong;
-        TextView textViewCity;
-        //private FusedLocationProviderClient FusedLocationClient;
-        private LocationRequest mLocationRequest;
-
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.uploadactivity_layout);
-
-            pDialog = new ProgressDialog(this);
-            pDialog.setMessage(getString(R.string.msg_loading));
-            pDialog.setCancelable(true);
-            service = new UserService();
-
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().hide();
-            }
-
-            imageView = (ImageView) findViewById(R.id.imageView);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.uploadactivity_layout);
+        getUserLocation();
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage(getString(R.string.msg_loading));
+        pDialog.setCancelable(true);
+        service = new UserService();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
+        textViewCity = (TextView) findViewById(R.id.cityCurrentText);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        descriptionText = (TextInputEditText) findViewById(R.id.descriptionText);
+        titleText = (TextInputEditText) findViewById(R.id.titleText);
+    }
 
+    public void showpDialog() {
+        if (!pDialog.isShowing()) pDialog.show();
+    }
 
-        public void showpDialog() {
+    public void hidepDialog() {
+        if (pDialog.isShowing()) pDialog.dismiss();
+    }
 
-            if (!pDialog.isShowing()) pDialog.show();
-        }
-
-        public void hidepDialog() {
-
-            if (pDialog.isShowing()) pDialog.dismiss();
-        }
-
-
-        public void selectImage(View view) {
+    public void selectImage(View view) {
+        try {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Create the File where the photo should go
+            File photoFile = null;
             try {
 
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                photoFile = FileUtils.createImageFile(this);
+                mCurrentPhotoPath = photoFile.getAbsolutePath();
 
-                // Create the File where the photo should go
-                File photoFile = null;
-
-                try {
-
-                    photoFile = FileUtils.createImageFile(this);
-                    mCurrentPhotoPath = photoFile.getAbsolutePath();
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-                if (photoFile != null) {
-
-                    //getUriForFile, which returns a content:// URI. For more recent apps targeting Android 7.0 (API level 24) and higher,
-                    //don't forget to change your package name
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.okker.app.fileprovider",
-                            photoFile);
-
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
-
-
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            if (photoFile != null) {
+                //getUriForFile, which returns a content:// URI. For more recent apps targeting Android 7.0 (API level 24) and higher,
+                //don't forget to change your package name
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.okker.app.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+    }
 
-
-
-
-        public void uploadImage(View view) {
-
-            try {
-                Log.d(TAG, "uploadImage: mCurrentPhotoPath " + mCurrentPhotoPath);
-
-                if (mCurrentPhotoPath != null && !mCurrentPhotoPath.equals("")) {
-                    pDialog.show();
-
-                    String title = "Geen oudorp";
-                    String place = "Dirksland";
-                    String description = "test";
-
-                    service.saveUserImage(this, title, place ,description,2.9,3.4, new File(mCurrentPhotoPath), new Callback<RetroPhoto>() {
-
+    public void uploadImage(View view) {
+        try {
+            Log.d(TAG, "LOGGING: uploadImage: mCurrentPhotoPath " + mCurrentPhotoPath);
+            if (mCurrentPhotoPath != null && !mCurrentPhotoPath.equals("")) {
+                pDialog.show();
+                String title = titleText.getText().toString();
+                String description = descriptionText.getText().toString();
+                if(title != null && description != null) {
+                    service.saveUserImage(this, title, userLocation, description, lat, lon, new File(mCurrentPhotoPath), new Callback<RetroPhoto>() {
                         @Override
                         public void onResponse(Call<RetroPhoto> call, Response<RetroPhoto> response) {
-                            showMessage("Image successfully uploaded to server.!");
+                            showMessage("Image successfully uploaded to server!");
                             pDialog.hide();
                         }
 
                         @Override
                         public void onFailure(Call<RetroPhoto> call, Throwable t) {
-                            showMessage("Upload Failed.!");
+                            showMessage("Upload Failed!");
                             pDialog.hide();
                         }
                     });
                 } else {
-                    showMessage("No Image found to be uploaded.");
+                    showMessage("Not all data has been filled in");
                     pDialog.hide();
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else {
+                showMessage("No Image found to be uploaded.");
+                pDialog.hide();
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+    }
 
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            Log.d(TAG, "onActivityResult: requestCode " + requestCode);
-            Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));
-            if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
-
-                try {
-
-                    Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-                    imageView.setImageBitmap(imageBitmap);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-        public void showMessage(String message) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: requestCode " + requestCode);
+        Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));
+        if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
             try {
-                AlertDialog alertDialog = new AlertDialog.Builder(UploadActivity.this).create();
-                alertDialog.setTitle("Message");
-                alertDialog.setMessage(message);
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+                imageView.setImageBitmap(imageBitmap);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
 
-/*
+    public void showMessage(String message) {
+        try {
+            AlertDialog alertDialog = new AlertDialog.Builder(UploadActivity.this).create();
+            alertDialog.setTitle("Message");
+            alertDialog.setMessage(message);
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     public void getUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -292,8 +270,8 @@ import retrofit2.Response;
                                     Geocoder geocoder = new Geocoder(UploadActivity.this, Locale.getDefault());
                                     List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
                                     int maxAddressLine = addresses.get(0).getMaxAddressLineIndex();
-                                    String cityName = addresses.get(0).getAddressLine(maxAddressLine);
-                                    textViewCity.setText(cityName = addresses.get(0).getLocality());
+                                    userLocation = addresses.get(0).getAddressLine(maxAddressLine);
+                                    textViewCity.setText(userLocation = addresses.get(0).getLocality());
                                 } catch (Exception ex) {
                                     Log.v(ex.toString(), ex.toString());
                                 }
@@ -302,7 +280,6 @@ import retrofit2.Response;
                     });
         }
     }
-
 
     public void onConnectionSuspended(int i) {
 
@@ -346,6 +323,5 @@ import retrofit2.Response;
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-    */
 }
 
