@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     newList.add(item);
                 }
             }
-
         }
         adapter.updateList(newList);
         return true;

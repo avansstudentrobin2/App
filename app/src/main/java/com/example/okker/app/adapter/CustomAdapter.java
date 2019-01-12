@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,14 +111,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     public String convertToShortDate(String dateString) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = format.parse(dateString);
-            return date.toString();
+            return dateString.substring(0, 10);
         } catch(Exception ex) {
-            Log.d("ERROR", ex.toString());
             return "Date Error";
         }
-        //return "10-1-2019";
     }
 
     public void updateList(List<RetroPhoto> newList) {
