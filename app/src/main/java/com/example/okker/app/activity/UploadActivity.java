@@ -146,8 +146,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
 
             try {
-                Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-                imageView.setImageBitmap(imageBitmap);
+                Picasso.with(this).load("file:" + mCurrentPhotoPath).into(imageView);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
