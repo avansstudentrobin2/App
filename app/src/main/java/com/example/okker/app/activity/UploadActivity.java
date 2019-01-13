@@ -137,10 +137,32 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: requestCode " + requestCode);
+        Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));
+        if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
+
+            try {
+                Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+                imageView.setImageBitmap(imageBitmap);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if(resultCode == Activity.RESULT_CANCELED) {
+            mCurrentPhotoPath = null;
+        }
+
+    }
+
+
     public void uploadImage(View view) {
         try {
             Log.d(TAG, "LOGGING: uploadImage: mCurrentPhotoPath " + mCurrentPhotoPath);
-            if (mCurrentPhotoPath != null && !mCurrentPhotoPath.equals("")) {
+            if (mCurrentPhotoPath != null) {
                 pDialog.show();
                 String title = titleText.getText().toString();
                 String description = descriptionText.getText().toString();
@@ -171,21 +193,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: requestCode " + requestCode);
-        Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));
-        if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
-            try {
-                Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-                imageView.setImageBitmap(imageBitmap);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     public void showMessage(String message) {
         try {
