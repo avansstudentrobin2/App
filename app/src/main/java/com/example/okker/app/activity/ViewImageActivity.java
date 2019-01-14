@@ -101,11 +101,15 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
     private void getDataFromCall(RetroPhoto retroPhoto) {
         latitude = retroPhoto.getLatitude();
         longitude = retroPhoto.getLongitude();
-        Picasso.Builder builder = new Picasso.Builder(ViewImageActivity.this);
+      /* Picasso.Builder builder = new Picasso.Builder(ViewImageActivity.this);
         builder.downloader(new OkHttp3Downloader(ViewImageActivity.this));
         builder.build().load(retroPhoto.getImg())
                 .placeholder((R.drawable.gg))
                 .error(R.drawable.gg)
+                .into(imageView); */
+        Picasso.get().load(retroPhoto.getImg())
+                .placeholder((R.drawable.placeholder))
+                .error(R.drawable.placeholder)
                 .into(imageView);
         textViewTitle.setText(retroPhoto.getTitle());
         textViewText.setText(retroPhoto.getDescription());

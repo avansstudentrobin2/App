@@ -4,14 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -64,7 +67,7 @@ import retrofit2.Response;
 public class UploadActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     public static String TAG = UploadActivity.class.getSimpleName();
-    ImageView imageView;
+    ImageView mImageView;
     static final int REQUEST_IMAGE_CAPTURE = 1000;
     UserService service;
     String mCurrentPhotoPath;
@@ -90,16 +93,11 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
             getSupportActionBar().hide();
         }
         textViewCity = (TextView) findViewById(R.id.cityCurrentText);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        mImageView = (ImageView) findViewById(R.id.imageView);
         descriptionText = (TextInputEditText) findViewById(R.id.descriptionText);
         titleText = (TextInputEditText) findViewById(R.id.titleText);
 
-        Picasso.Builder builder = new Picasso.Builder(UploadActivity.this);
-        builder.downloader(new OkHttp3Downloader(UploadActivity.this));
-        builder.build().load(R.drawable.placeholder)
-                .placeholder((R.drawable.placeholder))
-                .error(R.drawable.placeholder)
-                .into(imageView);
+
     }
 
     public void showpDialog() {
@@ -117,6 +115,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
+
             try {
 
                 photoFile = FileUtils.createImageFile(this);
@@ -137,16 +136,17 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: requestCode " + requestCode);
         Log.d(TAG, "onActivityResult: resultCode == RESULT_OK ? " + (resultCode == RESULT_OK));
-        if (REQUEST_IMAGE_CAPTURE == requestCode && resultCode == RESULT_OK) {
+        if ( requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
 
             try {
-                Picasso.with(this).load("file:" + mCurrentPhotoPath).into(imageView);
+                Picasso.get().load("file:" + mCurrentPhotoPath).into(mImageView);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -169,7 +169,12 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                     showMessage("Not all the data has been filled, try again");
                     pDialog.hide();
                 } else {
-                    service.saveUserImage(this, title, userLocation, description, lat, lon, new File(mCurrentPhotoPath), new Callback<RetroPhoto>() {
+
+
+                    File image = new File(mCurrentPhotoPath);
+                   File compressedImage = FileUtils.saveBitmapToFile(image);
+
+                    service.saveUserImage(this, title, userLocation, description, lat, lon, compressedImage, new Callback<RetroPhoto>() {
                         @Override
                         public void onResponse(Call<RetroPhoto> call, Response<RetroPhoto> response) {
                             showMessage("Sale has been successfully uploaded");

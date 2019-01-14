@@ -85,10 +85,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         //holder.date.setText(dataList.get(position).getUpdated_at());
         holder.date.setText(convertToShortDate(dataList.get(position).getUpdated_at()));
         holder.place.setText(dataList.get(position).getPlace());
-        Picasso.Builder builder = new Picasso.Builder(context);
+       /* Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
         builder.build().load(dataList.get(position).getImg())
                 .placeholder((R.drawable.placeholder))
+                .error(R.drawable.placeholder)
+                .into(holder.coverImage); */
+        Picasso.get()
+                .load(dataList.get(position).getImg())
+                .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.coverImage);
 

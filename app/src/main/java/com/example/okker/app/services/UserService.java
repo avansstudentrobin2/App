@@ -20,6 +20,8 @@ public class UserService {
 
     public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPhoto> callback) {
 
+       //File test = FileUtils.saveBitmapToFile(imageFile);
+
         // create upload service client
         GetDataService service = RetrofitClientInstance.getMGClient();
 
