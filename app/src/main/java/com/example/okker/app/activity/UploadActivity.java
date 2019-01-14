@@ -97,6 +97,11 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         descriptionText = (TextInputEditText) findViewById(R.id.descriptionText);
         titleText = (TextInputEditText) findViewById(R.id.titleText);
 
+        Picasso.get()
+                .load(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(mImageView);
 
     }
 
@@ -169,7 +174,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                     showMessage("Not all the data has been filled, try again");
                     pDialog.hide();
                 } else {
-
 
                     File image = new File(mCurrentPhotoPath);
                    File compressedImage = FileUtils.saveBitmapToFile(image);
