@@ -1,17 +1,9 @@
 package com.example.okker.app.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,28 +13,20 @@ import com.example.okker.app.R;
 import com.example.okker.app.adapter.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
-import com.example.okker.app.network.RetrofitClientInstance1;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import com.google.android.gms.maps.GoogleMap;
-
-import java.util.Map;
 
 public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCallback {
     ImageView imageView;
@@ -70,7 +54,7 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         Integer imageId = Integer.parseInt(getIntent().getExtras().getString("id"));
 
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
         Call<RetroPhoto> call = service.getPhoto(imageId);
         call.enqueue(new Callback<RetroPhoto>() {

@@ -20,7 +20,6 @@ import com.example.okker.app.adapter.CustomAdapter;
 import com.example.okker.app.adapter.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
-import com.example.okker.app.network.RetrofitClientInstance1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         progressDoalog.show();
 
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {
@@ -86,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void fetchTimeLineAsync(int page) {
         //AsyncHttpClient client = new AsyncHttpClient();
         adapter.clear();
-        GetDataService service = RetrofitClientInstance1.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+
+        //GetDataService service = ClientWithInterceptor.getMGClient();
 
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {

@@ -23,8 +23,8 @@ public class UserService {
        //File test = FileUtils.saveBitmapToFile(imageFile);
 
         // create upload service client
-        GetDataService service = RetrofitClientInstance.getMGClient();
-
+       // GetDataService service = ClientWithInterceptor.getMGClient();
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse(FileUtils.getFileExtension(imageFile.getAbsolutePath())), imageFile);
 
