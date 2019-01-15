@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.okker.app.R;
 import com.example.okker.app.adapter.CustomAdapter;
 import com.example.okker.app.adapter.GetDataService;
+import com.example.okker.app.adapter.SqLiteAdapter;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
 
@@ -71,19 +73,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 progressDoalog.dismiss();
                 Collections.reverse(response.body());
                 generateDataList(response.body());
+                SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
+                db.addPosts(response.body());
             }
 
             @Override
             public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
                 progressDoalog.dismiss();
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
+                List<RetroPhoto> photoList = db.getAllRetroPhotos();
+                generateDataList(photoList);
             }
         });
     }
 
     //Method to refresh activity
     public void fetchTimeLineAsync(int page) {
-        //AsyncHttpClient client = new AsyncHttpClient();
         adapter.clear();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
@@ -97,31 +103,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 progressDoalog.dismiss();
                 Collections.reverse(response.body());
                 generateDataList(response.body());
-                //Set all responseitem in the local storage of your phone
-                for(RetroPhoto item : response.body()) {
-
-                }
+                SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
+                db.addPosts(response.body());
             }
 
             @Override
             public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
-                //Check in local storage of the phone on posts
-                boolean checkOnLocalStorage = getLocalStoragePosts();
-                if(checkOnLocalStorage == false) {
-                    progressDoalog.dismiss();
-                    Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                } else {
-                    progressDoalog.dismiss();
-                    Toast.makeText(MainActivity.this, "Something went wrong with your internet connection. We fill your timeline with existing items.", Toast.LENGTH_SHORT).show();
-                }
+                progressDoalog.dismiss();
+                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                //Get all posts from internal database
+                SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
+                List<RetroPhoto> photoList = db.getAllRetroPhotos();
+                generateDataList(photoList);
             }
         });
         swipeContainer.setRefreshing(false);
-    }
-
-    private boolean getLocalStoragePosts() {
-        //Get SqlLite database and fill the Activity
-        return false;
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
