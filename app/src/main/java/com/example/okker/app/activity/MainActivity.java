@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.okker.app.R;
 import com.example.okker.app.adapter.CustomAdapter;
-import com.example.okker.app.adapter.GetDataService;
+import com.example.okker.app.services.GetDataService;
 import com.example.okker.app.adapter.SqLiteAdapter;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
@@ -40,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private SwipeRefreshLayout swipeContainer;
     private List<RetroPhoto> allImagesList = new ArrayList<>();
 
+    /**
+     * Startup Activity from the app
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +95,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void fetchTimeLineAsync(int page) {
         adapter.clear();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-
-        //GetDataService service = ClientWithInterceptor.getMGClient();
 
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {

@@ -3,11 +3,7 @@ package com.example.okker.app.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.os.Environment;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +29,6 @@ public class FileUtils {
 
         return image;
     }
-
 
     public static String getFileExtension(String filename)
     {

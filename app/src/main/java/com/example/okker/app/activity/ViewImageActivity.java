@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.okker.app.R;
-import com.example.okker.app.adapter.GetDataService;
+import com.example.okker.app.services.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,7 +33,6 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
     TextView textViewTitle, textViewText, textViewPlace, textViewCreatedDate, textViewUpdatedDate;
     Button routeButton;
     private Double latitude, longitude;
-
     GoogleMap mGoogleMap;
     MapView mMapView;
 
@@ -81,16 +80,9 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
-
     private void getDataFromCall(RetroPhoto retroPhoto) {
         latitude = retroPhoto.getLatitude();
         longitude = retroPhoto.getLongitude();
-      /* Picasso.Builder builder = new Picasso.Builder(ViewImageActivity.this);
-        builder.downloader(new OkHttp3Downloader(ViewImageActivity.this));
-        builder.build().load(retroPhoto.getImg())
-                .placeholder((R.drawable.gg))
-                .error(R.drawable.gg)
-                .into(imageView); */
         Picasso.get().load(retroPhoto.getImg())
                 .placeholder((R.drawable.placeholder))
                 .error(R.drawable.placeholder)

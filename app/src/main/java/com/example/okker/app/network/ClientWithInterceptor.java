@@ -1,7 +1,7 @@
 package com.example.okker.app.network;
 
 
-import com.example.okker.app.adapter.GetDataService;
+import com.example.okker.app.services.GetDataService;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;

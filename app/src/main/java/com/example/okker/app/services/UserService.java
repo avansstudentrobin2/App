@@ -2,7 +2,6 @@ package com.example.okker.app.services;
 
 import android.content.Context;
 
-import com.example.okker.app.adapter.GetDataService;
 import com.example.okker.app.model.RetroPhoto;
 import com.example.okker.app.network.RetrofitClientInstance;
 import com.example.okker.app.utils.FileUtils;
@@ -19,8 +18,6 @@ import retrofit2.Callback;
 public class UserService {
 
     public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPhoto> callback) {
-
-       //File test = FileUtils.saveBitmapToFile(imageFile);
 
         // create upload service client
        // GetDataService service = ClientWithInterceptor.getMGClient();

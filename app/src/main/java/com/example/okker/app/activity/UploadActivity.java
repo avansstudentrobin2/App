@@ -4,17 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,16 +42,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -77,7 +68,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
     private Double lat;
     private Double lon;
     private String userLocation;
-    TextView textViewCity, cityCurrentText;
+    TextView textViewCity;
     private LocationRequest mLocationRequest;
 
     @Override
@@ -102,15 +93,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(mImageView);
-
-    }
-
-    public void showpDialog() {
-        if (!pDialog.isShowing()) pDialog.show();
-    }
-
-    public void hidepDialog() {
-        if (pDialog.isShowing()) pDialog.dismiss();
     }
 
     public void selectImage(View view) {
@@ -205,8 +187,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-
-
     public void showMessage(String message) {
         try {
             AlertDialog alertDialog = new AlertDialog.Builder(UploadActivity.this).create();
@@ -223,7 +203,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
             ex.printStackTrace();
         }
     }
-
 
     public void getUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -348,7 +327,6 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         int result = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION);
         return result == PackageManager.PERMISSION_GRANTED;
     }
-
 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
