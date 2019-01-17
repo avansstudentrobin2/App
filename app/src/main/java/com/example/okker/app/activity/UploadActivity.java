@@ -162,6 +162,10 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
 
     }
 
+    /**
+     * this method uploads the view to the api with retrofit
+     * @param view
+     */
 
     public void uploadImage(View view) {
         try {

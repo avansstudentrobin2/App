@@ -54,6 +54,11 @@ public class FileUtils {
         }
     }
 
+
+    /**
+     * @param file
+     * @return file
+     */
     public static File saveBitmapToFile(File file){
         try {
 
