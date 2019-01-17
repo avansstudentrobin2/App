@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.okker.app.R;
 import com.example.okker.app.services.GetDataService;
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 import com.example.okker.app.network.RetrofitClientInstance;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapView;
@@ -55,16 +55,16 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         /*Create handle for the RetrofitInstance interface*/
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
-        Call<RetroPhoto> call = service.getPhoto(imageId);
-        call.enqueue(new Callback<RetroPhoto>() {
+        Call<RetroPost> call = service.getPhoto(imageId);
+        call.enqueue(new Callback<RetroPost>() {
 
             @Override
-            public void onResponse(Call<RetroPhoto> call, Response<RetroPhoto> response) {
+            public void onResponse(Call<RetroPost> call, Response<RetroPost> response) {
                 getDataFromCall(response.body());
             }
 
             @Override
-            public void onFailure(Call<RetroPhoto> call, Throwable t) {
+            public void onFailure(Call<RetroPost> call, Throwable t) {
                 Intent goMainActivity = new Intent(ViewImageActivity.this, MainActivity.class);
                 startActivity(goMainActivity);
             }
@@ -80,18 +80,18 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
-    private void getDataFromCall(RetroPhoto retroPhoto) {
-        latitude = retroPhoto.getLatitude();
-        longitude = retroPhoto.getLongitude();
-        Picasso.get().load(retroPhoto.getImg())
+    private void getDataFromCall(RetroPost retroPost) {
+        latitude = retroPost.getLatitude();
+        longitude = retroPost.getLongitude();
+        Picasso.get().load(retroPost.getImg())
                 .placeholder((R.drawable.placeholder))
                 .error(R.drawable.placeholder)
                 .into(imageView);
-        textViewTitle.setText(retroPhoto.getTitle());
-        textViewText.setText(retroPhoto.getDescription());
-        textViewPlace.setText(retroPhoto.getPlace());
-        textViewCreatedDate.setText(retroPhoto.getCreated_at());
-        textViewUpdatedDate.setText(retroPhoto.getUpdated_at());
+        textViewTitle.setText(retroPost.getTitle());
+        textViewText.setText(retroPost.getDescription());
+        textViewPlace.setText(retroPost.getPlace());
+        textViewCreatedDate.setText(retroPost.getCreated_at());
+        textViewUpdatedDate.setText(retroPost.getUpdated_at());
         setLocationOnMap();
     }
 

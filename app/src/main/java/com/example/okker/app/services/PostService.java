@@ -2,7 +2,7 @@ package com.example.okker.app.services;
 
 import android.content.Context;
 
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 import com.example.okker.app.network.RetrofitClientInstance;
 import com.example.okker.app.utils.FileUtils;
 
@@ -15,9 +15,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class UserService {
+public class PostService {
 
-    public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPhoto> callback) {
+    public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPost> callback) {
 
         // create upload service client
        // GetDataService service = ClientWithInterceptor.getMGClient();
@@ -55,7 +55,7 @@ public class UserService {
                 RequestBody.create(
                         MultipartBody.FORM, Double.toString(longitude));
 
-        Call<RetroPhoto> result =  service.uploadImage(titleName, placeName,descriptionName, latitudeName, longitudeName, body);
+        Call<RetroPost> result =  service.uploadImage(titleName, placeName,descriptionName, latitudeName, longitudeName, body);
 
         result.enqueue(callback);
 

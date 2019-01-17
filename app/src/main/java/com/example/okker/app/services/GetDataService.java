@@ -1,6 +1,6 @@
 package com.example.okker.app.services;
 
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 
 import java.util.List;
 
@@ -16,18 +16,18 @@ import retrofit2.http.Path;
 public interface GetDataService {
 
     @GET("/api/posts")
-    Call<List<RetroPhoto>> getAllPhotos();
+    Call<List<RetroPost>> getAllPhotos();
 
     @GET("/api/posts/{id}")
-    Call<RetroPhoto> getPhoto(@Path("id") Integer id);
+    Call<RetroPost> getPhoto(@Path("id") Integer id);
 
     @Multipart
     @POST("/api/posts")
-    Call<RetroPhoto> uploadImage(@Part("title") RequestBody title,
-                                 @Part("place") RequestBody place,
-                                 @Part("description") RequestBody description,
-                                 @Part("latitude") RequestBody latitude,
-                                 @Part("longitude") RequestBody longitude,
-                                 @Part MultipartBody.Part file);
+    Call<RetroPost> uploadImage(@Part("title") RequestBody title,
+                                @Part("place") RequestBody place,
+                                @Part("description") RequestBody description,
+                                @Part("latitude") RequestBody latitude,
+                                @Part("longitude") RequestBody longitude,
+                                @Part MultipartBody.Part file);
 
 }

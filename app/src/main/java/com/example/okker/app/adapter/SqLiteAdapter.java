@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addPosts(List<RetroPhoto> retroPhoto) {
+    public void addPosts(List<RetroPost> retroPost) {
         SQLiteDatabase db = this.getWritableDatabase();
         //Drop old table
         db.execSQL("DROP TABLE " + TABLE_POSTS);
@@ -67,7 +67,7 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         db.execSQL(CREATE_RETROPHOTO_TABLE);
         //Set retrophoto values and insert into sqlite database
         ContentValues values = new ContentValues();
-        for(RetroPhoto photo : retroPhoto) {
+        for(RetroPost photo : retroPost) {
             values.put(KEY_ID, photo.getId());
             values.put(KEY_TITLE, photo.getTitle());
             values.put(KEY_PLACE, photo.getPlace());
@@ -82,21 +82,21 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<RetroPhoto> getAllRetroPhotos() {
+    public List<RetroPost> getAllRetroPhotos() {
         //Make list of retrophotos and fill from table TABLE_POSTS in DB
-        List<RetroPhoto> allRetroPhotos = new LinkedList<RetroPhoto>();
+        List<RetroPost> allRetroPosts = new LinkedList<RetroPost>();
         String query = "SELECT  * FROM " + TABLE_POSTS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        RetroPhoto retroPhoto = null;
+        RetroPost retroPost = null;
         //Loop retrophotos and return list
         if (cursor.moveToFirst()) {
             do {
-                retroPhoto = new RetroPhoto(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),Double.parseDouble(cursor.getString(4)),Double.parseDouble(cursor.getString(5)),cursor.getString(6),cursor.getString(7),cursor.getString(8));
+                retroPost = new RetroPost(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),Double.parseDouble(cursor.getString(4)),Double.parseDouble(cursor.getString(5)),cursor.getString(6),cursor.getString(7),cursor.getString(8));
                 // Add retrophoto to list of retrophotos
-                allRetroPhotos.add(retroPhoto);
+                allRetroPosts.add(retroPost);
             } while (cursor.moveToNext());
         }
-        return allRetroPhotos;
+        return allRetroPosts;
     }
 }

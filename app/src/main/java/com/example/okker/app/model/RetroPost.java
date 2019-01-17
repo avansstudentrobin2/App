@@ -2,7 +2,7 @@ package com.example.okker.app.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetroPhoto {
+public class RetroPost {
 
     @SerializedName("id")
     private Integer id;
@@ -23,7 +23,7 @@ public class RetroPhoto {
     @SerializedName("updated_at")
     private String updated_at;
 
-    public RetroPhoto(Integer id, String title, String place, String description, Double longitude, Double latitude, String img, String created_at, String updated_at) {
+    public RetroPost(Integer id, String title, String place, String description, Double longitude, Double latitude, String img, String created_at, String updated_at) {
         this.id = id;
         this.title = title;
         this.place = place;

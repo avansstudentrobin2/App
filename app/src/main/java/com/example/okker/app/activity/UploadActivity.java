@@ -27,8 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.okker.app.R;
-import com.example.okker.app.model.RetroPhoto;
-import com.example.okker.app.services.UserService;
+import com.example.okker.app.model.RetroPost;
+import com.example.okker.app.services.PostService;
 import com.example.okker.app.utils.FileUtils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -60,7 +60,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
     public static String TAG = UploadActivity.class.getSimpleName();
     ImageView mImageView;
     static final int REQUEST_IMAGE_CAPTURE = 1000;
-    UserService service;
+    PostService service;
     String mCurrentPhotoPath;
     ProgressDialog pDialog;
     TextInputEditText descriptionText, titleText;
@@ -79,7 +79,7 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(getString(R.string.msg_loading));
         pDialog.setCancelable(true);
-        service = new UserService();
+        service = new PostService();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -164,15 +164,15 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                     File image = new File(mCurrentPhotoPath);
                    File compressedImage = FileUtils.saveBitmapToFile(image);
 
-                    service.saveUserImage(this, title, userLocation, description, lat, lon, compressedImage, new Callback<RetroPhoto>() {
+                    service.saveUserImage(this, title, userLocation, description, lat, lon, compressedImage, new Callback<RetroPost>() {
                         @Override
-                        public void onResponse(Call<RetroPhoto> call, Response<RetroPhoto> response) {
+                        public void onResponse(Call<RetroPost> call, Response<RetroPost> response) {
                             showMessage("Sale has been successfully uploaded");
                             pDialog.hide();
                         }
 
                         @Override
-                        public void onFailure(Call<RetroPhoto> call, Throwable t) {
+                        public void onFailure(Call<RetroPost> call, Throwable t) {
                             showMessage("Upload has Failed!");
                             pDialog.hide();
                         }

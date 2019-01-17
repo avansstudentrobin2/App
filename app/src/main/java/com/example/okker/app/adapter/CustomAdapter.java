@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.okker.app.R;
 import com.example.okker.app.activity.ViewImageActivity;
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
-    private List<RetroPhoto> dataList;
+    private List<RetroPost> dataList;
     private Context context;
 
-    public CustomAdapter(Context context,List<RetroPhoto> dataList){
+    public CustomAdapter(Context context,List<RetroPost> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -89,7 +89,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         dataList.clear();
         notifyDataSetChanged();
     }
-    public void addAll(List<RetroPhoto> list) {
+    public void addAll(List<RetroPost> list) {
         dataList.addAll(list);
         notifyDataSetChanged();
     }
@@ -102,7 +102,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         }
     }
 
-    public void updateList(List<RetroPhoto> newList) {
+    public void updateList(List<RetroPost> newList) {
         dataList = new ArrayList<>();
         dataList.addAll(newList);
         notifyDataSetChanged();

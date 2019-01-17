@@ -19,7 +19,7 @@ import com.example.okker.app.R;
 import com.example.okker.app.adapter.CustomAdapter;
 import com.example.okker.app.services.GetDataService;
 import com.example.okker.app.adapter.SqLiteAdapter;
-import com.example.okker.app.model.RetroPhoto;
+import com.example.okker.app.model.RetroPost;
 import com.example.okker.app.network.RetrofitClientInstance;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private CustomAdapter adapter;
     private RecyclerView recyclerView;
     ProgressDialog progressDoalog;
-    private RetroPhoto retroPhoto;
+    private RetroPost retroPost;
     private SwipeRefreshLayout swipeContainer;
-    private List<RetroPhoto> allImagesList = new ArrayList<>();
+    private List<RetroPost> allImagesList = new ArrayList<>();
 
     /**
      * Startup Activity from the app
@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         /*Create handle for the RetrofitInstance interface*/
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
-        Call<List<RetroPhoto>> call = service.getAllPhotos();
-        call.enqueue(new Callback<List<RetroPhoto>>() {
+        Call<List<RetroPost>> call = service.getAllPhotos();
+        call.enqueue(new Callback<List<RetroPost>>() {
 
             @Override
-            public void onResponse(Call<List<RetroPhoto>> call, Response<List<RetroPhoto>> response) {
+            public void onResponse(Call<List<RetroPost>> call, Response<List<RetroPost>> response) {
                 progressDoalog.dismiss();
                 Collections.reverse(response.body());
                 generateDataList(response.body());
@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
 
             @Override
-            public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
+            public void onFailure(Call<List<RetroPost>> call, Throwable t) {
                 progressDoalog.dismiss();
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
-                List<RetroPhoto> photoList = db.getAllRetroPhotos();
+                List<RetroPost> photoList = db.getAllRetroPhotos();
                 generateDataList(photoList);
             }
         });
@@ -96,11 +96,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         adapter.clear();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
-        Call<List<RetroPhoto>> call = service.getAllPhotos();
-        call.enqueue(new Callback<List<RetroPhoto>>() {
+        Call<List<RetroPost>> call = service.getAllPhotos();
+        call.enqueue(new Callback<List<RetroPost>>() {
 
             @Override
-            public void onResponse(Call<List<RetroPhoto>> call, Response<List<RetroPhoto>> response) {
+            public void onResponse(Call<List<RetroPost>> call, Response<List<RetroPost>> response) {
                 progressDoalog.dismiss();
                 Collections.reverse(response.body());
                 generateDataList(response.body());
@@ -109,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
 
             @Override
-            public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
+            public void onFailure(Call<List<RetroPost>> call, Throwable t) {
                 progressDoalog.dismiss();
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 //Get all posts from internal database
                 SqLiteAdapter db = new SqLiteAdapter(MainActivity.this);
-                List<RetroPhoto> photoList = db.getAllRetroPhotos();
+                List<RetroPost> photoList = db.getAllRetroPhotos();
                 generateDataList(photoList);
             }
         });
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(List<RetroPhoto> photoList) {
+    private void generateDataList(List<RetroPost> photoList) {
         allImagesList = photoList;
         recyclerView = findViewById(R.id.customRecyclerView);
         adapter = new CustomAdapter(this,photoList);
@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         String userInput = newText.toLowerCase();
-        List<RetroPhoto> newList = new ArrayList<>();
-        for(RetroPhoto item : allImagesList){
+        List<RetroPost> newList = new ArrayList<>();
+        for(RetroPost item : allImagesList){
             if(item.getTitle().toLowerCase().contains(userInput)) {
                 if(!newList.contains(item)) {
                     newList.add(item);
