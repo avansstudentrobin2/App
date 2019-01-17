@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:textColor="@color/blue"
         android:textSize="24sp" />
 
     <TextView
@@ -74,7 +75,8 @@
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:fontFamily="sans-serif"
-        android:text="@string/get_route" />
+        android:text="@string/get_route"
+        android:textColor="@color/cast_expanded_controller_text_color" />
 
 </LinearLayout>
 </ScrollView>
