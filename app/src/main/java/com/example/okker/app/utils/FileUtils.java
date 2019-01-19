@@ -15,6 +15,12 @@ import java.util.Date;
 
 public class FileUtils {
 
+    /**
+     * Creates a file of an image
+     * @param context
+     * @return image
+     * @throws IOException
+     */
     public static File createImageFile(Context context) throws IOException {
 
         // Create an image file name
@@ -30,6 +36,11 @@ public class FileUtils {
         return image;
     }
 
+    /**
+     * Uses filename as a parameter and makes an fileExtension with the filename.
+     * @param filename
+     * @return filename with substring
+     */
     public static String getFileExtension(String filename)
     {
         if (filename == null) {
@@ -51,6 +62,7 @@ public class FileUtils {
 
 
     /**
+     * Uses the file parameter, resizes the image file and compresses the file and returns the file
      * @param file
      * @return file
      */

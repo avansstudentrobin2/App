@@ -13,6 +13,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
+/**
+ * Api calls
+ */
 public interface GetDataService {
 
     @GET("/api/posts")

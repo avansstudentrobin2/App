@@ -16,7 +16,17 @@ import retrofit2.Callback;
 
 
 public class PostService {
-
+    /**
+     * Saves the posts that gets initialized in Uploadactivity.uploadImage adds it to Retrofitcall via multipart form.
+     * @param context
+     * @param title
+     * @param place
+     * @param description
+     * @param latitude
+     * @param longitude
+     * @param imageFile
+     * @param callback
+     */
     public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPost> callback) {
 
         /**

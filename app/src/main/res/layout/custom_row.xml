@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="338dp"
+        android:layout_height="350dp"
         android:orientation="vertical">
 
         <TextView
@@ -30,12 +30,13 @@
         <TextView
             android:id="@+id/title"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/coverImage"
             android:paddingTop="2dp"
             android:text="title"
+            android:textColor="@color/blue"
             android:textSize="24sp" />
 
         <TextView

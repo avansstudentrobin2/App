@@ -10,6 +10,11 @@ public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
     private static final String BASE_URL = "https://androidapi.goodyweb.nl";
+
+    /**
+     * Build a new retrofit instance with the url and convert to gson
+     * @return retrofit
+     */
     public static Retrofit getRetrofitInstance() {
         Gson gson = new GsonBuilder().setLenient().create();
         if (retrofit == null) {

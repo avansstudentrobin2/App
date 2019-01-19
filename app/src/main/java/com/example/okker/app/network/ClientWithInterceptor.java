@@ -15,6 +15,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class ClientWithInterceptor {
 
     public static final String BASE_URL = "https://androidapi.goodyweb.nl";
@@ -23,6 +24,11 @@ public class ClientWithInterceptor {
 
     public static OkHttpClient.Builder httpClient;
 
+    /**
+     * Retrofit with interceptor (useful for api calls if u need an interceptor)
+     * @param baseUrl
+     * @return
+     */
     public static Retrofit getClient(String baseUrl) {
         //http logging interceptor will give us the information about web service call response.
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
