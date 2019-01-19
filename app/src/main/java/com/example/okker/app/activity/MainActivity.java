@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     /**
      * Startup Activity from the app
+     * Calls functions requestFineLocation & requestCoarseLocation for Location of user
+     * Call to Api for all the RetroPosts and send to generateDataList function
      * @param savedInstanceState
      */
     @Override
@@ -91,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
     }
 
-    //Method to refresh activity
+    /**
+     * Method to refresh activity. Again call to Api to get data
+     * @param page
+     */
     public void fetchTimeLineAsync(int page) {
         adapter.clear();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -121,7 +126,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         swipeContainer.setRefreshing(false);
     }
 
-    /*Method to generate List of data using RecyclerView with custom adapter*/
+    /**
+     * Method to generate List of data using RecyclerView with custom adapter
+     * Send List to CustomAdapter
+     * @param photoList
+     */
     private void generateDataList(List<RetroPost> photoList) {
         allImagesList = photoList;
         recyclerView = findViewById(R.id.customRecyclerView);
@@ -137,7 +146,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         startActivity(intent);
     }
 
-    //Ask user for permissions Fine & Coarse location
+    /**
+     * Ask user for permissions Fine & Coarse location
+     * @param act
+     */
     public static void requestFineLocation(Activity act) {
         ActivityCompat.requestPermissions(act,
                 new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -148,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
 
+    /**
+     * Instantiate Searchbar, set onQueryListener
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
@@ -162,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
+    /**
+     * Show result in recyclerview, based on searchquery
+     * @param newText
+     * @return
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         String userInput = newText.toLowerCase();

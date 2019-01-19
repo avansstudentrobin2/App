@@ -64,13 +64,18 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
     String mCurrentPhotoPath;
     ProgressDialog pDialog;
     TextInputEditText descriptionText, titleText;
+    private LocationRequest mLocationRequest;
     private GoogleApiClient googleApiClient;
     private Double lat;
     private Double lon;
     private String userLocation;
     TextView textViewCity;
-    private LocationRequest mLocationRequest;
 
+    /**
+     * Activity for uploading new RetroPost
+     * Call function getUserLocation to receive the location of user
+      * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +100,10 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                 .into(mImageView);
     }
 
+    /**
+     * Start intent with camera and put content to activity after the camera
+     * @param view
+     */
     public void selectImage(View view) {
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -123,7 +132,13 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-
+    /**
+     * Get data from camera intent with checks on nulls
+     * Show image in ImageView
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -145,10 +160,9 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     /**
-     * this method uploads the view to the api with retrofit
+     * This method uploads the view to the Api with retrofit
      * @param view
      */
-
     public void uploadImage(View view) {
         try {
             Log.d(TAG, "LOGGING: uploadImage: mCurrentPhotoPath " + mCurrentPhotoPath);
@@ -204,6 +218,11 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
+    /**
+     * Get location of user, if Android give permission to location
+     * No perrmission -> Go back to main activity
+     * GoogleApiClient build location
+     */
     public void getUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -236,7 +255,9 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         googleApiClient.connect();
     }
 
-    //Location onStart
+    /**
+     * Location onStart connect()
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -245,15 +266,20 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    //Location onStop
+    /**
+     * Location onStop disconnect()
+     */
     @Override
     protected void onStop() {
         googleApiClient.disconnect();
         super.onStop();
     }
 
-    //Location Connected
-
+    /**
+     * On googleApiClient connection get latest found location and set Latitude & Longitude
+     * Geocode the city of the user
+     * @param bundle
+     */
     public void onConnected(@Nullable Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -294,17 +320,10 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    public void onLocationChanged(Location location) {
-        // New location has now been determined
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-    }
-
-    //RequestPermissions
+    /**
+     * RequestPermissions for location
+     * @param act
+     */
     public static void requestFineLocation(Activity act) {
         ActivityCompat.requestPermissions(act,
                 new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -315,7 +334,11 @@ public class UploadActivity extends AppCompatActivity implements GoogleApiClient
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
 
-    //CheckPermissions
+    /**
+     * CheckPermissions for location
+     * @param act
+     * @return
+     */
     public static boolean checkFineLocation(Activity act)
     {
         int result = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION);

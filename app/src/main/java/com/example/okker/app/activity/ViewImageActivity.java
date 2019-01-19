@@ -36,6 +36,12 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
     GoogleMap mGoogleMap;
     MapView mMapView;
 
+    /**
+     * Start activity for viewing an RetroPost
+     * Get Id from last activity and call to api with id to get the data
+     * Set onClickListener getRoute, open Maps acitivty
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,11 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
+    /**
+     * Set all fields, location & image from RetroPost
+     * Call function setLocationOnMap() for setting location on map
+     * @param retroPost
+     */
     private void getDataFromCall(RetroPost retroPost) {
         latitude = retroPost.getLatitude();
         longitude = retroPost.getLongitude();
@@ -103,6 +114,10 @@ public class ViewImageActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * Configurations for GoogleMapsView
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getApplicationContext());
