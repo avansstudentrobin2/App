@@ -2,6 +2,7 @@ package com.example.okker.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         this.dataList = dataList;
     }
 
+    /**
+     * Set data from itemView in layout
+     * Add onClickListener when user click on image. Putextra content ID
+     */
     class CustomViewHolder extends RecyclerView.ViewHolder {
-
         public final View mView;
-
         private TextView txtTitle;
         private ImageView coverImage;
         private TextView imageId;
@@ -40,14 +43,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         CustomViewHolder(final View itemView) {
             super(itemView);
             mView = itemView;
-            //mView.findViewById(imageId);
-
             txtTitle = mView.findViewById(R.id.title);
             coverImage = mView.findViewById(R.id.coverImage);
             imageId = mView.findViewById(R.id.id);
             date = mView.findViewById(R.id.date);
             place = mView.findViewById(R.id.place);
-
             coverImage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v){
                     Intent viewImageIntent = new Intent(context, ViewImageActivity.class);
@@ -58,6 +58,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         }
     }
 
+    /**
+     * Make layout CustomRow layout
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -65,6 +71,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         return new CustomViewHolder(view);
     }
 
+    /**
+     * Set data to CustomRow layout
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getTitle());
@@ -76,8 +87,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.coverImage);
-
-        holder.getItemId();
     }
 
     @Override
@@ -94,7 +103,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         notifyDataSetChanged();
     }
 
-    public String convertToShortDate(String dateString) {
+    private String convertToShortDate(String dateString) {
         try {
             return dateString.substring(0, 10);
         } catch(Exception ex) {
@@ -102,6 +111,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         }
     }
 
+    /**
+     * Update list from newList, call function notifyDataSetChanged
+     * @param newList
+     */
     public void updateList(List<RetroPost> newList) {
         dataList = new ArrayList<>();
         dataList.addAll(newList);

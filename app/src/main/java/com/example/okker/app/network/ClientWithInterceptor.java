@@ -24,7 +24,6 @@ public class ClientWithInterceptor {
     public static OkHttpClient.Builder httpClient;
 
     public static Retrofit getClient(String baseUrl) {
-
         //http logging interceptor will give us the information about web service call response.
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);

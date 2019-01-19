@@ -44,6 +44,10 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Create Sqlite DB
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Create table
@@ -59,6 +63,10 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Create Sqlite table and fill with retroPost List
+     * @param retroPost
+     */
     public void addPosts(List<RetroPost> retroPost) {
         SQLiteDatabase db = this.getWritableDatabase();
         //Drop old table
@@ -82,6 +90,10 @@ public class SqLiteAdapter extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Get List with RetroPosts from Sqlite DB
+     * @return
+     */
     public List<RetroPost> getAllRetroPhotos() {
         //Make list of retrophotos and fill from table TABLE_POSTS in DB
         List<RetroPost> allRetroPosts = new LinkedList<RetroPost>();

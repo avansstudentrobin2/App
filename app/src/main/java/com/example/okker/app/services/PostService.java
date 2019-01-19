@@ -19,38 +19,38 @@ public class PostService {
 
     public void saveUserImage(Context context, String title, String place, String description, Double latitude, Double longitude, File imageFile, Callback<RetroPost> callback) {
 
-        // create upload service client
-       // GetDataService service = ClientWithInterceptor.getMGClient();
+        /**
+         * Create upload service client
+         */
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse(FileUtils.getFileExtension(imageFile.getAbsolutePath())), imageFile);
 
-        // MultipartBody.Part is used to send also the actual file name
+        /**
+         * MultipartBody.Part is used to send also the actual file name
+         */
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("img", imageFile.getName(), requestFile);
 
-        // add another part within the multipart request
-       //String title1 = title;
+        /**
+         * Add another part within the multipart request
+         */
         RequestBody titleName =
                 RequestBody.create(
                         MultipartBody.FORM, title);
 
-        //String place1 = place;
         RequestBody placeName =
                 RequestBody.create(
                         MultipartBody.FORM, place);
 
-       // String description1 = description;
         RequestBody descriptionName =
                 RequestBody.create(
                         MultipartBody.FORM, description);
 
-       //Double latitude1 = latitude;
         RequestBody latitudeName =
                 RequestBody.create(
                         MultipartBody.FORM, Double.toString(latitude));
 
-       //String longitude1 = longitude;
         RequestBody longitudeName =
                 RequestBody.create(
                         MultipartBody.FORM, Double.toString(longitude));
